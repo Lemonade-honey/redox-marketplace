@@ -27,6 +27,8 @@ return new class extends Migration {
             $table->string('phone_number')->nullable();
             $table->date('birth_date')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
