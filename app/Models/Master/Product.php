@@ -15,6 +15,18 @@ class Product extends Model
         'id'
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'configs' => 'array'
+        ];
+    }
+
     public function categorie(): BelongsTo
     {
         return $this->belongsTo(Categorie::class, 'categorie_id');
