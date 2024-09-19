@@ -16,8 +16,9 @@ return new class extends Migration {
             $table->uuid('categorie_id');
             $table->text('description');
             $table->integer('price');
-            $table->text('image_thumb');
-            $table->integer('qtys')->default(0);
+            $table->integer('stocks')->default(0);
+            $table->integer('sold')->default(0);
+            $table->text('configs');
             $table->timestamps();
 
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');

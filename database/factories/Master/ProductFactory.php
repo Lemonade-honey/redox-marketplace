@@ -21,8 +21,11 @@ class ProductFactory extends Factory
             'name' => 'product - ' . rand(),
             'description' => fake()->paragraph(6),
             'price' => rand(5000, 20000),
-            'image_thumb' => fake()->url(),
-            'qtys' => rand(5, 20)
+            'stocks' => rand(5, 20),
+            'configs' => [
+                'Warna' => ["Hijau", "Merah", "Kuning", "Hijau garis biru"],
+                'Ukuran' => ["XXL", "XL", "M", "S", "50"]
+            ]
         ];
     }
 }
