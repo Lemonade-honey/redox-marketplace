@@ -15,9 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (\Illuminate\Support\Facades\App::isLocal()) {
+            \App\Models\Master\Categorie::factory(5)->has(\App\Models\Master\Product::factory(5))->create();
+        }
     }
 }
