@@ -14,7 +14,7 @@
 
     @include('includes.navbar')
 
-    <div class="mt-20">
+    <div class="mt-20 p-4">
         @yield('body')
     </div>
     
