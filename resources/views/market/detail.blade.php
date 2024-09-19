@@ -10,10 +10,10 @@
                 </div>
                 
                 <div class="mt-10 overflow-x-auto flex gap-5">
-                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0" data-id="1">
+                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0 list-image" data-id="1">
                         <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="Front View" />
                     </div>
-                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0" data-id="2">
+                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0 list-image" data-id="2">
                         <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-back.svg" alt="Back View" />
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="mt-2">
-                <p class="sm:text-sm">Stok {{ $product->qtys }}</p>
+                <p class="sm:text-sm">Stok {{ $product->stocks }}</p>
             </div>
 
             <form action="/" method="get">
@@ -63,39 +63,21 @@
                 <hr class="my-6 md:my-8 border-gray-200" />
     
                 <div class="mt-5 grid grid-cols-1 sm:grid-cols-2">
+                    @foreach ($product->configs as $key => $item)
                     <div class="mt-2">
-                        <h3 class="mb-2 text-lg font-medium text-gray-900">Warna</h3>
+                        <h3 class="mb-2 text-lg font-medium text-gray-900">{{ $key }}</h3>
                         <ul class="w-full flex flex-wrap gap-3">
+                            @foreach ($item as $value)
                             <li>
-                                <input type="radio" id="hosting-small" name="warna" value="hosting-small" class="hidden peer" required />
-                                <label for="hosting-small" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                    <div class="w-full text-lg font-semibold">Hijau garis merah</div>
+                                <input type="radio" id="{{ $value . "|" . $key }}" name="{{ $key }}" value="{{ $value }}" class="hidden peer" required />
+                                <label for="{{ $value . "|" . $key }}" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
+                                    <div class="w-full text-lg font-semibold">{{ $value }}</div>
                                 </label>
                             </li>
-                            <li>
-                                <input type="radio" id="hosting-big" name="warna" value="hosting-big" class="hidden peer">
-                                <label for="hosting-big" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                    <div class="w-full text-lg font-semibold">Merah</div>
-                            </li>
-                            
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="mt-2">
-                        <h3 class="mb-2 text-lg font-medium text-gray-900">Ukuran</h3>
-                        <ul class="w-full flex flex-wrap gap-3">
-                            <li>
-                                <input type="radio" id="XL" name="hosting" value="XL" class="hidden peer" required />
-                                <label for="XL" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                    <div class="w-full text-lg font-semibold">XL</div>
-                                </label>
-                            </li>
-                            <li>
-                                <input type="radio" id="L" name="hosting" value="L" class="hidden peer">
-                                <label for="L" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                    <div class="w-full text-lg font-semibold">L</div>
-                            </li>
-                        </ul>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="mt-5">
                     <h3 class="mb-2 text-lg font-medium text-gray-900">Catatan tambahan</h3>
@@ -112,7 +94,7 @@
 @push('script')
 <script>
     const mainImage = document.getElementById("mainImage");
-    const thumbnails = document.querySelectorAll(".flex-shrink-0");
+    const thumbnails = document.querySelectorAll(".list-image");
     thumbnails.forEach(thumbnail => {
         thumbnail.addEventListener("click", function() {
             const clickedImage = this.querySelector("img").src;
