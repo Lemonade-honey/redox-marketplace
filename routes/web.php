@@ -2,11 +2,17 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MarketController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
+});
+
+Route::prefix('market')->group(function () {
+    Route::get("/", [MarketController::class, 'index'])->name('market.index');
+    Route::get("/{id}", [MarketController::class, 'detailProdcut'])->name('market.detail');
 });
 
 Route::middleware('guest')->group(function () {
