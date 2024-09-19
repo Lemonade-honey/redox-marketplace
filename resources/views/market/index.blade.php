@@ -3,7 +3,7 @@
 @section('body')
 <x-main-header title="Welcome to market" />
 
-<div class="flex flex-wrap justify-around gap-5">
+<div class="flex flex-wrap justify-center gap-5">
     @foreach ($products as $item)  
     <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
         <a href="#">
