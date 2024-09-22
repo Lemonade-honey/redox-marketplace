@@ -123,7 +123,7 @@ class ProductController extends Controller
 
     public function detail($id)
     {
-        $product = Product::with("categorie")->findOrFail($id);
+        $product = Product::with("categorie", "images")->findOrFail($id);
         $bread   = [
             route('master.product.index') => 'Products',
         ];
