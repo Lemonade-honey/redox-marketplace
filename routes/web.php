@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,23 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('profile')->group(function () {
             Route::get('/', [UserProfileController::class, 'index'])->name('profile.index');
             Route::post('/', [UserProfileController::class, 'update']);
+        });
+
+        Route::prefix("master")->group(function () {
+            Route::prefix("product")->group(function () {
+                Route::get("/", [ProductController::class, "index"])->name("master.product.index");
+
+                Route::get("/create", [ProductController::class, "create"])->name("master.product.create");
+                Route::post("/create", [ProductController::class, "createPost"]);
+
+                Route::get("/edit/{id}", [ProductController::class, "edit"])->name("master.product.edit");
+                Route::post("/edit/{id}", [ProductController::class, "editPost"]);
+
+                Route::get("/{id}", [ProductController::class, "detail"])->name("master.product.detail");
+                Route::post("/{id}", [ProductController::class, "detailPost"]);
+
+                Route::get("/delete/{id}", [ProductController::class, "delete"])->name("master.product.delete");
+            });
         });
     });
 });
