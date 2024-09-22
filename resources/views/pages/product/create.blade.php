@@ -15,7 +15,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="">
                     <x-basic-label for="name" title="Images Product" />
-                    <input type="file" id="file">
+                    <input type="file" id="file" multiple>
                 </div>
                 <div class="">
                     <div class="mb-5">
@@ -269,18 +269,18 @@
 
     FilePond.create(inputElement, {
         acceptedFileTypes: ['image/*'],
-        name: inputElement.getAttribute('id'),
-        // required: true,
+        name: "files[]",
+        required: true,
         onprocessfilestart: (file) => {
-            console.log('file been process');
+            console.log('file been process', btnSubmit);
             btnSubmit.disabled = true;
         },
         onprocessfilerevert: (file) => {
-            console.log('file been revert');
+            console.log('file been revert', btnSubmit);
             btnSubmit.disabled = true;
         },
         onprocessfile: (error, file) => {
-            console.log(error, file);
+            console.log('file selesai di proses', error, file);
             btnSubmit.disabled = false;
         },
         onremovefile: (error, file) => {
@@ -289,14 +289,14 @@
         },
         server: {
             process: {
-                url: "/",
+                url: "{{ route('files.upload') }}",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     'Accept' : 'application/json',
                 }
             },
             revert:{
-                url: "/",
+                url: "{{ route('files.revert') }}",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     'Accept' : 'application/json',

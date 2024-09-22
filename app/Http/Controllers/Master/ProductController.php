@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use App\Models\Master\Categorie;
 use App\Models\Master\Product;
+use App\Models\Master\ProductImage;
+use DB;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -24,17 +26,19 @@ class ProductController extends Controller
         return view("pages.product.create", compact("categories", "bread"));
     }
 
-    public function createPost(Request $request)
+    public function createPost(Request $request, \App\Services\Interfaces\FileTempService $fileTempService)
     {
         $request->validate([
             "name" => ["required", "string", "max:255", "min:3"],
             "categorie" => ["required", "exists:categories,id"],
+            "files" => ["required", "array"],
             "description" => "required",
             "price" => ["required", "numeric", "min:0", "max:100000000"],
             "configs" => ["nullable", "array"]
         ]);
 
         try {
+            DB::beginTransaction();
             $product = Product::create([
                 "name" => $request->input("name"),
                 "categorie_id" => $request->input("categorie"),
@@ -43,6 +47,21 @@ class ProductController extends Controller
                 "configs" => $request->input('configs') ?? []
             ]);
 
+            $folder = \Illuminate\Support\Str::random();
+
+            foreach ($request->input('files') as $key => $value) {
+                $path = $fileTempService->saveFileTemp($value, "products/$folder");
+
+                if ($path) {
+                    ProductImage::create([
+                        "product_id" => $product->id,
+                        "image" => $path
+                    ]);
+                }
+            }
+
+            DB::commit();
+
             logNotice("product success to create", [
                 "datas" => $product,
                 "by" => auth()->user()->id
@@ -50,6 +69,8 @@ class ProductController extends Controller
 
             return redirect()->route("master.product.detail", $product->id)->with("success", "berhasil menambah product baru");
         } catch (\Throwable $th) {
+            DB::rollBack();
+
             logError("product failed to create", $th);
 
             return back()->with("error", "gagal menambah product baru");
