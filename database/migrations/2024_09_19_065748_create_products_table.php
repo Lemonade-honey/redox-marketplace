@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('stocks')->default(0);
             $table->integer('sold')->default(0);
             $table->text('configs');
+            $table->enum("status", ["ACTIVE", "NOT ACTIVE"])->default("NOT ACTIVE");
             $table->timestamps();
 
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
