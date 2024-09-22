@@ -63,8 +63,9 @@ class FilePoundService implements FileTempService
         if ($temp) {
             $targetPath = "$targetFolder/$temp->file";
 
-            if (Storage::disk("public")->move($temp->folder, $targetPath)) {
-                Storage::disk("public")->deleteDirectory(FilePoundService::TEMP_PATH . $temp->folder);
+            if (Storage::disk("public")->move(FilePoundService::TEMP_PATH . "/" . "$temp->folder/$temp->file", $targetPath)) {
+                Storage::disk("public")->deleteDirectory(FilePoundService::TEMP_PATH . "/" . $temp->folder);
+                $temp->delete();
             }
 
             return $targetPath;
