@@ -52,4 +52,15 @@ Route::middleware(['auth'])->group(function () {
             });
         });
     });
+
+    // upload files route && only adamin
+    Route::prefix("files")->group(function () {
+        Route::post("upload", function (\Illuminate\Http\Request $request, \App\Services\Interfaces\FileTempService $fileTempService) {
+            return $fileTempService->uploadTemp($request);
+        })->name("files.upload");
+
+        Route::delete("revert", function (\Illuminate\Http\Request $request, \App\Services\Interfaces\FileTempService $fileTempService) {
+            return $fileTempService->revertTemp($request);
+        })->name("files.revert");
+    });
 });
