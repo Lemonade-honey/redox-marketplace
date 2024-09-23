@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\Master\CategoriesController;
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,16 @@ Route::middleware(['auth'])->group(function () {
                 Route::post("/{id}", [ProductController::class, "detailPost"]);
 
                 Route::get("/delete/{id}", [ProductController::class, "delete"])->name("master.product.delete");
+            });
+
+            Route::prefix("categories")->group(function () {
+                Route::get("/", [CategoriesController::class, "index"])->name("master.categorie.index");
+                Route::post("/", [CategoriesController::class, "createPost"]);
+
+                Route::get("/edit/{id}", [CategoriesController::class, "edit"])->name("master.categorie.edit");
+                Route::post("/edit/{id}", [CategoriesController::class, "editPost"]);
+
+                Route::get("/delete/{id}", [CategoriesController::class, "delete"])->name("master.categorie.delete");
             });
         });
     });
