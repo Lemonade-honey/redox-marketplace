@@ -6,22 +6,21 @@
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
             <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
                 <div>
-                    <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" id="mainImage" />
+                    <img class="w-full" src="{{ asset('storage') . '/' . $product->images->first()?->image }}" alt="" id="mainImage" />
                 </div>
                 
                 <div class="mt-10 overflow-x-auto flex gap-5">
-                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0 list-image" data-id="1">
-                        <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="Front View" />
+                    @foreach ($product->images as $item)
+                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0 list-image overflow-hidden" data-id="1">
+                        <img class="w-full" src="{{ asset('storage') . '/' . $item->image }}" alt="Front View" />
                     </div>
-                    <div class="p-2 w-24 h-24 sm:w-32 sm:h-32 border hover:border-blue-400 cursor-pointer rounded-md flex-shrink-0 list-image" data-id="2">
-                        <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-back.svg" alt="Back View" />
-                    </div>
+                    @endforeach
                 </div>
 
                 <hr class="my-6 md:my-8 border-gray-200" />
 
                 <p class="mb-6 text-gray-600">
-                    {{ $product->description }}
+                    @php echo $product->description @endphp
                 </p>
             </div>
 
@@ -71,7 +70,7 @@
                             <li>
                                 <input type="radio" id="{{ $value . "|" . $key }}" name="{{ $key }}" value="{{ $value }}" class="hidden peer" required />
                                 <label for="{{ $value . "|" . $key }}" class="inline-flex items-center justify-between px-3 py-0.5 text-gray-500 bg-white border border-gray-200 rounded-xl cursor-pointer peer-checked:border-blue-600 peer-checked:text-white peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                    <div class="w-full text-lg font-semibold">{{ $value }}</div>
+                                    <div class="w-full text-sm font-semibold">{{ $value }}</div>
                                 </label>
                             </li>
                             @endforeach

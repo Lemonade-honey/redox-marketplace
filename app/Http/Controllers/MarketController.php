@@ -17,7 +17,7 @@ class MarketController extends Controller
     public function detailProdcut($id)
     {
 
-        $product = Product::with("categorie")->findOrFail($id);
+        $product = Product::with("categorie", "images")->findOrFail($id);
 
         return view("market.detail", compact("product"));
     }

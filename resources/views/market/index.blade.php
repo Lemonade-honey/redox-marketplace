@@ -6,8 +6,12 @@
 <div class="flex flex-wrap justify-center gap-5">
     @foreach ($products as $item)  
     <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-        <a href="#">
+        <a href="{{ route('market.detail', $item->id) }}">
+            @if ($item->images->first())
+            <img class="p-8 rounded-t-lg" src="{{ asset('storage') . '/' . $item->images->first()->image }}" alt="product image" />
+            @else
             <img class="p-8 rounded-t-lg" src="https://flowbite.com/docs/images/products/apple-watch.png" alt="product image" />
+            @endif
         </a>
         <div class="px-5 pb-5">
             <a href="#">
@@ -17,7 +21,7 @@
                 {{ $item->categorie->name }}
             </div>
             <div class="flex items-center justify-between">
-                <span class="text-3xl font-bold text-gray-900">${{ number_format($item->price) }}</span>
+                <span class="text-3xl font-bold text-gray-900">Rp. {{ number_format($item->price) }}</span>
                 <a href="{{ route('market.detail', $item->id) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add to cart</a>
             </div>
         </div>
