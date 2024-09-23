@@ -16,6 +16,19 @@
                 <div class="">
                     <x-basic-label for="name" title="Images Product" />
                     <input type="file" id="file">
+
+                    @foreach ($product->images as $item)
+                        <div class="flex items-center p-4 rounded-lg bg-gray-50 mb-5">
+                            <div class="ms-3 text-sm font-medium text-gray-800 truncate">
+                                <a href="{{ asset('storage') . '/' . $item->image }}" target="__blank" class="font-semibold underline hover:no-underline">{{ $item->image }}</a>
+                            </div>
+                            <button type="button" id="image-delete" data-product="{{ $item->id }}" class="ms-auto -mx-1.5 -my-1.5 bg-gray-50 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex items-center justify-center h-8 w-8" title="delete image">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                            </button>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="">
                     <div class="mb-5">
@@ -329,5 +342,31 @@
             }
         }
     })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelectorAll("#image-delete").forEach(element => {
+        element.addEventListener("click", () => {
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = "{{ route('master.product.delete-image', ['id' => $product->id, 'image_id' => ':id']) }}"
+                    
+                    url = url.replace(':id', element.dataset.product);
+                    
+                    window.location = url
+                }
+            })
+        })
+    });
 </script>
 @endpush

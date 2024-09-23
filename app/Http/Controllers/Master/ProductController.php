@@ -8,6 +8,7 @@ use App\Models\Master\Product;
 use App\Models\Master\ProductImage;
 use DB;
 use Illuminate\Http\Request;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -80,7 +81,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $categories = Categorie::orderBy("name")->get();
-        $product    = Product::with("categorie")->findOrFail($id);
+        $product    = Product::with("categorie", "images")->findOrFail($id);
         $bread      = [
             route('master.product.index') => 'Products',
             route('master.product.detail', $product->id) => "Detail Product"
@@ -119,6 +120,19 @@ class ProductController extends Controller
 
             return back()->with("error", "gagal mengupdate product");
         }
+    }
+
+    public function deleteImagePost($id, $idImage)
+    {
+        $productImage = ProductImage::findOrFail($idImage);
+
+        if (Storage::disk("public")->exists($productImage->image)) {
+            Storage::disk("public")->delete($productImage->image);
+        }
+
+        $productImage->delete();
+
+        return back()->with('success', 'gambar product berhasil dihapus');
     }
 
     public function detail($id)

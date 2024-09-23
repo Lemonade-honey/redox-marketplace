@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
                 Route::get("/edit/{id}", [ProductController::class, "edit"])->name("master.product.edit");
                 Route::post("/edit/{id}", [ProductController::class, "editPost"]);
+                Route::get("/edit/{id}/delete-image/{image_id}", [ProductController::class, "deleteImagePost"])->name("master.product.delete-image");
 
                 Route::get("/{id}", [ProductController::class, "detail"])->name("master.product.detail");
                 Route::post("/{id}", [ProductController::class, "detailPost"]);
