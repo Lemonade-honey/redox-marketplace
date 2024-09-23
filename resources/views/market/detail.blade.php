@@ -1,6 +1,9 @@
 @extends('layouts.guest')
 
 @section('body')
+
+@include('includes.alert')
+
 <section class="py-8 bg-white md:py-16 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
@@ -36,7 +39,8 @@
                 <p class="sm:text-sm">Stok {{ $product->stocks }}</p>
             </div>
 
-            <form action="/" method="get">
+            <form action="{{ route('cart.save', $product->id) }}" method="POST">
+                @csrf
                 <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                     <a href="#" title="" class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100"
                     role="button">
@@ -46,12 +50,12 @@
                         Add to favorites
                     </a>
     
-                    <a href="#" class="flex items-center justify-center text-white  bg-blue-700 hover:bg-blue-800 mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                    <button type="submit" class="w-full sm:w-max flex items-center justify-center text-white  bg-blue-700 hover:bg-blue-800 mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">
                         <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
                         </svg>
                         Add to cart
-                    </a>
+                    </button>
 
                     <div class="flex justify-center items-center gap-2 mt-5 sm:mt-0">
                         <p>Jumlah</p>
@@ -80,7 +84,7 @@
                 </div>
                 <div class="mt-5">
                     <h3 class="mb-2 text-lg font-medium text-gray-900">Catatan tambahan</h3>
-                    <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tuliskan pesan tambahan disini..."></textarea>
+                    <textarea id="message" name="massage" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tuliskan pesan tambahan disini..."></textarea>
                 </div>
             </form>
 

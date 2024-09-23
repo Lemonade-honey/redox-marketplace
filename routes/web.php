@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\Master\CategoriesController;
@@ -27,6 +28,9 @@ Route::middleware('guest')->group(function () {
 // auth path
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::post("cart/{id}", [CartController::class, "saveToCart"])->name("cart.save");
+    Route::get("cart/{id}/delete", [CartController::class, "deleteProductCart"])->name("cart.delete");
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
