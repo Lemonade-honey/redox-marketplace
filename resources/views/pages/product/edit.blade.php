@@ -15,7 +15,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="">
                     <x-basic-label for="name" title="Images Product" />
-                    <input type="file" id="file">
+                    <input type="file" id="file" multiple>
 
                     @foreach ($product->images as $item)
                         <div class="flex items-center p-4 rounded-lg bg-gray-50 mb-5">
@@ -307,8 +307,8 @@
 
     FilePond.create(inputElement, {
         acceptedFileTypes: ['image/*'],
-        name: inputElement.getAttribute('id'),
         // required: true,
+        name: "files[]",
         onprocessfilestart: (file) => {
             console.log('file been process');
             btnSubmit.disabled = true;
@@ -327,14 +327,14 @@
         },
         server: {
             process: {
-                url: "/",
+                url: "{{ route('files.upload') }}",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     'Accept' : 'application/json',
                 }
             },
             revert:{
-                url: "/",
+                url: "{{ route('files.revert') }}",
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}",
                     'Accept' : 'application/json',

@@ -12,6 +12,12 @@ use Storage;
 
 class ProductController extends Controller
 {
+
+    public function __construct(private \App\Services\Interfaces\FileTempService $fileTempService)
+    {
+
+    }
+
     public function index()
     {
         return view("pages.product.index");
@@ -27,7 +33,7 @@ class ProductController extends Controller
         return view("pages.product.create", compact("categories", "bread"));
     }
 
-    public function createPost(Request $request, \App\Services\Interfaces\FileTempService $fileTempService)
+    public function createPost(Request $request)
     {
         $request->validate([
             "name" => ["required", "string", "max:255", "min:3"],
@@ -51,7 +57,7 @@ class ProductController extends Controller
             $folder = \Illuminate\Support\Str::random();
 
             foreach ($request->input('files') as $key => $value) {
-                $path = $fileTempService->saveFileTemp($value, "products/$folder");
+                $path = $this->fileTempService->saveFileTemp($value, "products/$folder");
 
                 if ($path) {
                     ProductImage::create([
@@ -95,6 +101,7 @@ class ProductController extends Controller
         $request->validate([
             "name" => ["required", "string", "max:255", "min:3"],
             "categorie" => ["required", "exists:categories,id"],
+            "files" => ["nullable", "array"],
             "description" => "required",
             "price" => ["required", "numeric", "min:0", "max:100000000"],
             "configs" => ["nullable", "array"]
@@ -103,11 +110,29 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         try {
+            DB::beginTransaction();
             $product->name         = $request->input("name");
             $product->categorie_id = $request->input("categorie");
             $product->price        = $request->input("price");
             $product->configs      = $request->input("configs") ?? [];
             $product->save();
+
+            if (count($request->input('files')) > 0) {
+                $folder = \Illuminate\Support\Str::random();
+
+                foreach ($request->input('files') as $key => $value) {
+                    $path = $this->fileTempService->saveFileTemp($value, "products/$folder");
+
+                    if ($path) {
+                        ProductImage::create([
+                            "product_id" => $product->id,
+                            "image" => $path
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
 
             logNotice("product success to update", [
                 "datas" => $product,
@@ -116,6 +141,8 @@ class ProductController extends Controller
 
             return back()->with("success", "berhasil menambah product baru");
         } catch (\Throwable $th) {
+            DB::rollBack();
+
             logError("product failed to update", $th);
 
             return back()->with("error", "gagal mengupdate product");
