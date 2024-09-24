@@ -13,6 +13,7 @@ class CostumeProvider extends ServiceProvider
     {
         $this->app->bind(\App\Services\Interfaces\FileTempService::class, \App\Services\FilePoundService::class);
         $this->app->bind(\App\Services\Interfaces\OrderService::class, \App\Services\OrderServiceImpl::class);
+        $this->app->bind(\App\Services\Interfaces\PaymentService::class, \App\Services\FlipPaymentService::class);
     }
 
     /**
