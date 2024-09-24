@@ -13,4 +13,12 @@ interface OrderService
      */
     function mappingOrderProducts(array $carts): array|bool;
 
+    /**
+     * Summary of createOrderPayment
+     * 
+     * membuat sebuah payment order terikat beserta bill payment
+     * @param \App\Models\Order $order
+     * @return \App\Models\Payment
+     */
+    function createOrderPayment(\App\Models\Order $order): \App\Models\Payment;
 }
