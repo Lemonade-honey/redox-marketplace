@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\Master\CategoriesController;
 use App\Http\Controllers\Master\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post("cart/{id}", [CartController::class, "saveToCart"])->name("cart.save");
     Route::get("cart/{id}/delete", [CartController::class, "deleteProductCart"])->name("cart.delete");
+
+    Route::get("/order", [OrderController::class, "create"])->name("order.create");
+    Route::post("/order", [OrderController::class, "createOrderPost"]);
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

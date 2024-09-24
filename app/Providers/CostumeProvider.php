@@ -12,6 +12,7 @@ class CostumeProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(\App\Services\Interfaces\FileTempService::class, \App\Services\FilePoundService::class);
+        $this->app->bind(\App\Services\Interfaces\OrderService::class, \App\Services\OrderServiceImpl::class);
     }
 
     /**

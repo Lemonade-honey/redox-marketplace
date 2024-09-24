@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid("user_id");
             $table->text("orders");
-            $table->string("status")->default("pending");
+            $table->integer("total");
+            $table->string("status")->default("PENDING");
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

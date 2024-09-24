@@ -19,7 +19,7 @@
                 </button>
         
                 <div id="myCartDropdown1" class="hidden z-10 mx-auto max-w-sm space-y-4 overflow-hidden rounded-lg bg-white p-4 antialiased shadow-lg">
-                    @if(isset(auth()->user()->cart->carts))
+                    @if(isset(auth()->user()->cart->carts) && count(auth()->user()->cart->carts) > 0)
                     @foreach (auth()->user()->cart->carts as $key => $item)
                     <div class="grid grid-cols-2">
                         <div>
@@ -44,7 +44,7 @@
                     </div>
                     @endforeach
                 
-                    <a href="#" title="" class="mb-2 bg-blue-500 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300" role="button"> Proceed to Checkout </a>
+                    <a href="{{ route('order.create') }}" title="" class="mb-2 bg-blue-500 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300" role="button"> Proceed to Checkout </a>
                     @else
 
                     <div class="text-sm p-2 text-gray-400">No Product in Cart</div>
