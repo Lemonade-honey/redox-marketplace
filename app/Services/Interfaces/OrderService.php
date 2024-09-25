@@ -21,4 +21,13 @@ interface OrderService
      * @return \App\Models\Payment
      */
     function createOrderPayment(\App\Models\Order $order): \App\Models\Payment;
+
+    /**
+     * Summary of hitsSoldsProductsByCart
+     * 
+     * menambahkan sold pada product sesuai dengan data order
+     * @param array $carts
+     * @return void
+     */
+    function hitsSoldsProductsByCart(array $carts): void;
 }

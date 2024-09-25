@@ -65,4 +65,19 @@ class OrderServiceImpl implements OrderService
             throw $th;
         }
     }
+
+    public function hitsSoldsProductsByCart(array $carts): void
+    {
+        $carts = $this->mappingOrderProducts($carts);
+
+        $carts ?: throw new \Exception("data id product is null");
+
+        collect($carts)->each(function ($item) {
+            $product = \App\Models\Master\Product::find($item['id']);
+            if ($product) {
+                $product->sold += $item['qty'];
+                $product->save();
+            }
+        });
+    }
 }
