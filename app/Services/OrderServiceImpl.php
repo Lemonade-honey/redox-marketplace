@@ -15,7 +15,7 @@ class OrderServiceImpl implements OrderService
 
     public function mappingOrderProducts(array $carts): array|bool
     {
-        $products = \App\Models\Master\Product::with("images")->whereIn("id", [array_keys($carts)])->get();
+        $products = \App\Models\Master\Product::with("images")->whereIn("id", array_keys($carts))->get();
 
         if (!$products || count($products) < 1) {
             return false;
