@@ -55,4 +55,15 @@ interface PaymentService
      * @return mixed
      */
     function getAllPayments(array $parameters = null): mixed;
+
+
+    /**
+     * Summary of mappingValidateCallback
+     * 
+     * mengecek request callback, apakah valid atau tidak,
+     * membalikan requesst collect
+     * @param \Illuminate\Http\Request $request
+     * @return bool|\Illuminate\Support\Collection
+     */
+    function mappingValidateCallback(\Illuminate\Http\Request $request): bool|\Illuminate\Support\Collection;
 }

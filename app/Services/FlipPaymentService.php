@@ -127,4 +127,13 @@ class FlipPaymentService implements PaymentService
 
         return json_decode($response, true);
     }
+
+    public function mappingValidateCallback(\Illuminate\Http\Request $request): bool|\Illuminate\Support\Collection
+    {
+        if (!$request->token || $request->token != env("FILP_TOKEN_VALIDATE")) {
+            return false;
+        }
+
+        return collect(json_decode($request->data));
+    }
 }
