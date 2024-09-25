@@ -33,8 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post("cart/{id}", [CartController::class, "saveToCart"])->name("cart.save");
     Route::get("cart/{id}/delete", [CartController::class, "deleteProductCart"])->name("cart.delete");
 
-    Route::get("/order", [OrderController::class, "create"])->name("order.create");
-    Route::post("/order", [OrderController::class, "createOrderPost"]);
+    Route::prefix("order")->group(function () {
+        Route::get("/", [OrderController::class, "create"])->name("order.create");
+        Route::post("/", [OrderController::class, "createOrderPost"]);
+        Route::get("/{id}", [OrderController::class, "detail"])->name("order.detail");
+    });
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

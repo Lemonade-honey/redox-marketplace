@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use DB;
 use Illuminate\Http\Request;
 
@@ -55,7 +56,7 @@ class OrderController extends Controller
             });
 
             DB::beginTransaction();
-            $order = \App\Models\Order::create([
+            $order = Order::create([
                 'user_id' => auth()->user()->id,
                 'orders' => $products,
                 'total' => $totals,
@@ -64,13 +65,33 @@ class OrderController extends Controller
 
             $payment = $this->orderService->createOrderPayment($order);
 
+            $cart->carts = [];
+            $cart->save();
+
             DB::commit();
 
-            return dd("success create order", $order, $payment);
+            logInfo("order $order->id success to create with payment", [
+                "datas" => [
+                    $order,
+                    $payment
+                ],
+                "by" => auth()->user()->id
+            ]);
+
+            return redirect()->route("order.detail", $order->id)->with("success", "berhasil membuat order");
         } catch (\Throwable $th) {
             DB::rollBack();
-            //throw $th;
-            dd($th);
+
+            logError("order failed to create", $th);
+
+            return back()->with("error", "gagal membuat order. Coba lagi nanti");
         }
+    }
+
+    public function detail($id)
+    {
+        $order = Order::with("payment")->findOrFail($id);
+
+        return view("pages.order.detail", compact("order"));
     }
 }
