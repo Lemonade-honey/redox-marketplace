@@ -63,8 +63,13 @@ class OrderController extends Controller
                 'status' => "PENDING"
             ]);
 
+            // create order payment
             $payment = $this->orderService->createOrderPayment($order);
 
+            // hits increment sold product order
+            $this->orderService->hitsSoldsProductsByCart($cart->carts);
+
+            // set carts to empty
             $cart->carts = [];
             $cart->save();
 
