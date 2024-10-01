@@ -23,6 +23,10 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->has('remember-me'))) {
                 logInfo('login user : ' . auth()->user()->email);
 
+                if (auth()->user()->role != 'SUPERADMIN') {
+                    return redirect()->route('market.index');
+                }
+
                 return redirect()->route('dashboard');
             }
 

@@ -17,7 +17,9 @@ class OrderController extends Controller
 
     public function index()
     {
+        $orders = Order::where('user_id', auth()->user()->id)->paginate();
 
+        return view("pages.order.index", compact("orders"));
     }
 
     public function create()
