@@ -73,7 +73,9 @@
                 
                     <div class="p-2 text-sm font-medium text-gray-900">
                         <a href="{{ route('logout') }}" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-red-700 hover:bg-gray-100"> Sign Out </a>
+                        @if (in_array(auth()->user()->role, ['ADMIN', 'SUPERADMIN']))
                         <a href="{{ route('dashboard') }}" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100">Dashboard</a>
+                        @endif
                     </div>
                 </div>
                 @endauth
