@@ -15,6 +15,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // Admin Aplication
+        $superUser = User::create([
+            'name' => 'Redox Market Owner',
+            'email' => 'redox@market.laris',
+            'email_verified_at' => now(),
+            'password' => '123123',
+            'role' => 'SUPERADMIN',
+        ]);
+
+
+        \App\Models\UserProfile::create([
+            'user_id' => $superUser->id
+        ]);
+
         if (\Illuminate\Support\Facades\App::isLocal()) {
             \App\Models\Master\Categorie::factory(5)->has(\App\Models\Master\Product::factory(5))->create();
         }
