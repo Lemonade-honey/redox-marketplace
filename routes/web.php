@@ -34,9 +34,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get("cart/{id}/delete", [CartController::class, "deleteProductCart"])->name("cart.delete");
 
     Route::prefix("order")->group(function () {
-        Route::get("/", [OrderController::class, "create"])->name("order.create");
-        Route::post("/", [OrderController::class, "createOrderPost"]);
-        Route::get("/{id}", [OrderController::class, "detail"])->name("order.detail");
+        Route::get("/", [OrderController::class, "index"])->name("order.index");
+        Route::get("/detail/{id}", [OrderController::class, "detail"])->name("order.detail");
+
+        Route::get("/checkout", [OrderController::class, "create"])->name("order.create");
+        Route::post("/checkout", [OrderController::class, "createOrderPost"]);
     });
 
     Route::middleware('role:SUPER')->prefix('dashboard')->group(function () {
