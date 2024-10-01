@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get("/{id}", [OrderController::class, "detail"])->name("order.detail");
     });
 
-    Route::prefix('dashboard')->group(function () {
+    Route::middleware('role:SUPER')->prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::prefix('profile')->group(function () {
