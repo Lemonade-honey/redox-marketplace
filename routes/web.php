@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\Master\OrderController as MasterOrderController;
 use App\Http\Controllers\Master\CategoriesController;
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\OrderController;
@@ -50,6 +51,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix("master")->group(function () {
+            Route::prefix("orders")->group(function () {
+                Route::get("/", [MasterOrderController::class, "index"])->name("master.order.index");
+                Route::get("/detail/{id}", [MasterOrderController::class, "detail"])->name("master.order.detail");
+                Route::post("/detail/{id}", [MasterOrderController::class, "detailPost"]);
+            });
+
             Route::prefix("product")->group(function () {
                 Route::get("/", [ProductController::class, "index"])->name("master.product.index");
 
