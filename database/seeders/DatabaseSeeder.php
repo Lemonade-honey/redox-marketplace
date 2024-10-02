@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $superUser->id
         ]);
 
-        if (\Illuminate\Support\Facades\App::isLocal()) {
-            \App\Models\Master\Categorie::factory(5)->has(\App\Models\Master\Product::factory(5))->create();
-        }
+        // if (\Illuminate\Support\Facades\App::isLocal()) {
+        //     \App\Models\Master\Categorie::factory(5)->has(\App\Models\Master\Product::factory(5))->create();
+        // }
     }
 }

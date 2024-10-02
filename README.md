@@ -47,6 +47,10 @@ password : 123123
     ```
     php artisan migrate --seed
     ```
+    set storage
+    ```
+    php artisan storage:link
+    ```
 -   start project
     ```
     php artisan serve --port=80
