@@ -1,21 +1,23 @@
 @extends('layouts.app')
 
 @section('body')
-    <x-main-header title="Dashboard" />
+    <header class="mb-5">
+        <x-main-header title="Dashboard" />
+        <p>{!! $quote !!}</p>
+    </header>
+
     <section class="grid grid-cols-1 gap-4">
         <div class="w-full p-2 border border-gray-100 shadow rounded-lg">
-            <h2 class="font-semibold mb-2 text-lg sm:text-xl">Rp. 90,2323,992</h2>
-            <p class="text-sm text-gray-500">Penghasilan Tahunan</p>
+            <div class="w-full p-1 border border-gray-100 shadow rounded-lg">
+                <h2 class="font-semibold mb-2 text-lg sm:text-xl">Rp. 90,2323,992</h2>
+                <p class="text-sm text-gray-500">Penghasilan Tahunan</p>
+            </div>
             <div class="" id="chart"></div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="w-full p-2 border border-gray-100 shadow rounded-lg">
                 <h2 class="font-semibold mb-2 text-lg sm:text-xl">Latest Orders</h2>
                 @livewire('dashboard.list-latest-orders', ['lazy' => true])
-            </div>
-            <div class="w-full p-2 border border-gray-100 shadow rounded-lg">
-                <h2 class="font-semibold mb-2 text-lg sm:text-xl">Other Statistic</h2>
-                
             </div>
             <div class="w-full p-2 border border-gray-100 shadow rounded-lg">
                 <h2 class="font-semibold mb-2 text-lg sm:text-xl">Persebaran Pembelian</h2>

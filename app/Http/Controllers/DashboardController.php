@@ -8,6 +8,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.dashboard');
+        $inspire = \Illuminate\Foundation\Inspiring::quote();
+        return view('dashboard.dashboard', [
+            'quote' => $inspire
+        ]);
     }
 }
