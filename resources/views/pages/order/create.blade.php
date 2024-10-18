@@ -2,20 +2,24 @@
 
 @section('body')
 <section class="bg-white py-8 antialiased md:py-16">
+
+    
     <form action="#" method="POST" class="mx-auto max-w-screen-md px-4 2xl:px-0">
         @csrf
         <div class="mx-auto max-w-3xl">
             <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">Order summary</h2>
-    
+            
+            @include('includes.alert')
+
             <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 sm:mt-8">
                 <h4 class="text-lg font-semibold text-gray-900">Billing & Delivery information</h4>
         
                 <dl>
-                    <dt class="text-base font-medium text-gray-900">Individual</dt>
-                    <dd class="mt-1 text-base font-normal text-gray-500">Bonnie Green - +1 234 567 890, San Francisco, California, United States, 3454, Scott Street</dd>
+                    <dt class="text-base font-medium text-gray-900">{{ auth()->user()->name }}</dt>
+                    <dd class="mt-1 text-base font-normal text-gray-500">{{ auth()->user()->profile->address ?? 'address not set' }}</dd>
                 </dl>
         
-                <button type="button" data-modal-target="billingInformationModal" data-modal-toggle="billingInformationModal" class="text-base font-medium text-blue-700 hover:underline">Edit</button>
+                <a href="{{ route('profile.index') }}" class="text-base font-medium text-blue-700 hover:underline">Edit</a>
             </div>
     
             <div class="mt-6 sm:mt-8">

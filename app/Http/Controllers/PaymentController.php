@@ -22,7 +22,7 @@ class PaymentController extends Controller
         if ($payment) {
             $payment->status = $datas['status'];
             if ($datas['status'] == "SUCCESSFUL") {
-                $payment->order->status = "PROCESS";
+                $payment->order->status = "PROCES";
                 $payment->order->save();
             }
             $payment->save();

@@ -48,6 +48,10 @@ class OrderController extends Controller
 
         abort_if(!$cart || count($cart->carts) < 1, 404, "no carts product");
 
+        if (auth()->user()->profile->address == '' || auth()->user()->profile->address == null) {
+            return back()->with('warning', 'alamat pembeli belum diisi');
+        }
+
         try {
             $products = $this->orderService->mappingOrderProducts($cart->carts);
 
